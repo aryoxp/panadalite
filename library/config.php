@@ -1,5 +1,5 @@
 <?php 
-defined('PANADA') or die('Can\'t access directly!');
+defined('PANADA') or die("This file can't be accessed directly!");
 
 class config {
     
@@ -21,24 +21,10 @@ class config {
 			default:
 				exit('The application environment is not set correctly. Please check your environment configuration on config.php file.');
 		}
-
-		// Is the system path correct?
-/*
-		if (!is_dir( GEAR )) {
-			exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: " . 
-			pathinfo(__FILE__, PATHINFO_BASENAME));
-		}
-		
-		// Is the application path correct?
-		if (!is_dir( APPLICATION )) {
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
-		}
-*/		
-		
     }
     
     public static function instance(){   
-        if( ! self::$instance ) {
+        if( !self::$instance ) {
             self::$instance = new config();
         }
 		return self::$instance;

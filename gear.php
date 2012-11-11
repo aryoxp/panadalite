@@ -1,9 +1,8 @@
 <?php
+// define that we're in Panada!
+define('PANADA', true);
 
 $GLOBALS['microtime_start'] = microtime(true);
-
-if(!PANADA)
-	die("no PANADA definition, Panadalite will now exit.");
 
 if(!APPLICATION)
 	die("Unable to find APPLICATION directory definition, Panadalite will now exit.");
