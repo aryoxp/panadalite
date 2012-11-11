@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PanadaLite Documentation</title>
+<script type="text/javascript" src="../scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../scripts/toc.js"></script>
+<script type="text/javascript" src="../scripts/docs.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#toc-container').hide();
+		build_toc('../');
+	});
+</script>
+
+
+<link href="../styles/docs.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div align="center">
+<div id="paper">
+    	<div id="title">
+       	  <h1> PanadaLite Documentation</h1>
+        </div>
+        <div id="navigation">
+          <ul>
+            <li class="active"><a href="../index.html">Home</a></li>
+            <li class="menu-toc">Table of Contents</li>
+          </ul>
+          <div id="toc-container">
+          	<div id="toc"></div>
+            <div id="close-container">Close</div>
+          </div>
+          <div style="clear:both; height:6px;"></div>
+        </div>
+
+        
+        <div id="content">
+            <h2>PanadaLite Framework Installation</h2>
+          <h3>Downloading </h3>
+            <p>Latest version of PanadaLite Framework can be downloaded from <a href="http://github.com/aryoxp/panadalite/downloads">GitHub</a>. You may also fork it if you would like to improve it's code. <br>
+            More information about the original full-featured Panada Framework can be found and downloaded <a href="http://panadaframework.com">here</a>.</p>
+            <h3>Installing</h3>
+            <p>PanadaLite is installed in the following steps:</p>
+            <ol>
+              <li>Unzip the package.</li>
+              <li>Upload the PanadaLite files and folders to your server.Normally the index.php file will be at the document root of your webserver configuration.</li>
+              <li>Open the <code>panada/config.php</code> file with a text editor and modify the value to suit your application configuration if necessary.</li>
+            </ol>
+          <h3>Security</h3>
+          <p>If you wish to increase security by hiding the location of your PanadaLite files and directory, open the index.php file and change the path to the PanadaLite gear.php file to match your configuration.</p>
+          <p> For the best security, both the system and any application folders should be placed above web root so that they are not directly accessible via a browser. By default, .htaccess files are included in each folder to help prevent direct access, but it is best to remove them from public access entirely in case the web server configuration changes or doesn't abide by the .htaccess.</p>
+<p>After moving them, open your main index.php file and set the $system_folder and $application_folder variables, preferably with a full path, e.g. '/www/MyUser/system'.</p>
+            <p>One additional measure to take in production environments is to disable PHP error reporting and any other development-only functionality. In CodeIgniter, this can be done by setting the ENVIRONMENT constant, which is more fully described on the <a href="http://codeigniter.com/user_guide/general/security.html">security page</a>.</p>
+            <p>That's it!</p>
+        </div>
+        <!--content-->
+        <div id="footer">
+        
+        PanadaLite Framework &copy; 2012 - Aryo Pinandito. <br>
+        This software contains part of <a href="http://panadaframework.com">Panada Framework</a>. All rights reserved.
+        </div>
+        <!--footer-->
+        
+</div><!--center-->
+</body>
+</html>
