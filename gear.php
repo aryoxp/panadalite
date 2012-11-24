@@ -1,6 +1,6 @@
 <?php
 // define that we're in Panada!
-define('PANADA', true);
+if (!defined('PANADA')) define('PANADA', true);
 
 $GLOBALS['microtime_start'] = microtime(true);
 
