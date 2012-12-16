@@ -22,27 +22,33 @@ require_once LIBRARY . 'autoloader.php';
 // instantiate the autoloader object
 $autoloader = new autoloader();
 
-// instantiate the uri parser object
+// instantiate the uri parser object, getting the controller and method
 $uri = new uri();	
 $controller = $uri->getController();
 $method = $uri->getMethod();
+
 // try to instantiate the controller and execute it's selected method
 try {
-	
+
+	// instantiate the controller
+	$P = new $controller();	
+
 	if( method_exists( $controller, $method ) ) {	
 	
-		// instantiate the controller
-		$P = new $controller();
+		// execute method
 		call_user_func_array( array($P, $method), $uri->getArgs() ); 
+		
 	} else if ( !$controller ) {
 	
 		// invalid controller
 		$error = new error( "Invalid controller or controller can not be found." );
 		$error->show();
+		
 	} else {
 		
 		$error = new error( "Method " . $method . " not exists in " . $controller . " controller " );
 		$error->show();
+		
 	}
 		
 } catch (Exception $e) {
