@@ -123,17 +123,15 @@ class uri {
 	}
 	
 	public function getMethod() {
-		//var_dump($this->method);
 		if( isset( $this->config->filter_regex ) )
 			$this->method = preg_replace( $this->config->filter_regex, '', $this->method );
 		
-		if( method_exists($this->controller, $this->method) )
+		if( method_exists($this->controller, $this->method) ) {
 			return $this->method;
-		else if( @method_exists($this->controller, $this->config->method_alias) ) {
+		} else if( method_exists($this->controller, $this->config->method_alias) ) {
 			$this->args = array($this->method) + $this->args;
 			$this->method = preg_replace( $this->config->filter_regex, '', $this->config->method_alias );
 		}
-		//var_dump($this->controller);
 		return $this->method;
 	}
 	
