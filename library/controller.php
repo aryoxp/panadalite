@@ -26,14 +26,18 @@ class controller extends panada {
         exit;
 	}	
 
-	public function location( $path = NULL ) {
+	public function location( $path = NULL, $secure = null ) {
 		
 		if(substr($this->config->index_file, strlen($this->config->index_file)-1, 1) != "/" 
 			&& strlen(trim($this->config->index_file)) > 0 )
 			$this->config->index_file .= "/";
 		$location = str_replace( "//", "/",  $this->config->index_file . $path );
-		
-		return $this->config->base_url() . $location;
+		$base_url = $this->config->base_url();
+		if( $secure === true )
+			$base_url = preg_replace('/^http\:/i', 'https:', $base_url);
+		else if( $secure === false )
+			$base_url = preg_replace('/^https\:/i', 'http:', $base_url);
+		return  $base_url . $location;
 	}
 	
 	public function assets( $path = NULL ) {
