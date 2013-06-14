@@ -98,7 +98,7 @@ class database_mysql implements interface_database {
     public function escape( $string ) {        
 		if( is_null($this->link) )
 			$this->init();
-		return mysql_real_escape_string($string, $this->link);
+		return addslashes( $string );
     }
     
     /**
