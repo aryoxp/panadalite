@@ -70,6 +70,7 @@ class uri {
 				// stores unused trailing segments to be used as method and it's arguments
 				$trailsegments[] = array_pop( $segments );
 				$i++;
+				
 			}
 			
 			/*
@@ -117,7 +118,9 @@ class uri {
 	
 	public function getController() {
 		if(@$this->config->maintenance) $this->controller = 'controller_maintenance';
-		else if( isset( $this->config->filter_regex ) )
+		else if ($this->controller == "") {
+			return NULL;
+		} else if( isset( $this->config->filter_regex ) )
 			$this->controller = preg_replace( $this->config->filter_regex, '', $this->controller );
 		return $this->controller;
 	}
