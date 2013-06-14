@@ -30,19 +30,21 @@ $method = $uri->getMethod();
 // try to instantiate the controller and execute it's selected method
 try {
 
-	// instantiate the controller
-	$P = new $controller();	
-
-	if( method_exists( $controller, $method ) ) {	
-	
-		// execute method
-		call_user_func_array( array($P, $method), $uri->getArgs() ); 
-		
-	} else if ( !$controller ) {
+	if ( !$controller ) {
 	
 		// invalid controller
 		$error = new error( "Invalid controller or controller can not be found." );
 		$error->show();
+		exit;	
+	} 
+
+	// instantiate the controller
+	$P = new $controller();	
+	
+	if( method_exists( $controller, $method ) ) {	
+	
+		// execute method
+		call_user_func_array( array($P, $method), $uri->getArgs() ); 
 		
 	} else {
 		
