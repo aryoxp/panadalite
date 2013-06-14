@@ -66,3 +66,4 @@ $CONFIG['secret_key'] = "tH1s/is#4+seCREt/key''couLD bE\\anyThInG";
  * set up maintenance mode
  */
 $CONFIG['maintenance'] = false;
+$CONFIG['method_alias'] = 'alias';
