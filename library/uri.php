@@ -15,7 +15,7 @@ class uri {
 
 		$this->config 			= config::instance();
 		$this->fulluristring 	= $_SERVER['REQUEST_URI'];
-
+		//var_dump($_SERVER['REQUEST_URI']); echo "<br>";
 		$path = NULL;
 		if(isset( $_SERVER['PATH_INFO'] )) $path = $_SERVER['PATH_INFO'];
 		else {

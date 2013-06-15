@@ -24,7 +24,7 @@ class error {
 			$panada->view( "error/" . $template . ".php", array( "message" => $this->message ) );
 		} else 
 			echo $this->message;
-		exit;	
+		//exit;	
 	}
 
 	public function notfound( $message = NULL, $code = 404, $template = "404" ) {
@@ -36,7 +36,7 @@ class error {
 			$panada->view( "error/" . $template . ".php", array( "message" => $this->message ) );
 		} else 
 			echo $this->message;
-		exit;
+		//exit;
 	}	
 	
 	static public function database( $message = NULL, $code = 500 ) {
