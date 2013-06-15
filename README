@@ -2,7 +2,7 @@ PanadaLite Framework
 version 1.0a (Air alpha)
 Developed by Aryo Pinandito (aryoxp at gmail dot com)
 
-Copyright (c) 2012, Aryo Pinandito. All rights reserved.
+Copyright (c) 2012-2013, Aryo Pinandito. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -71,11 +71,12 @@ LIMITATIONS
 
 WORK-IN-PROGRESS
 
-1.  Develop plug-and-play libraries to improve features as close as 
+1.  Develop and test mysqli database driver
+2.  Develop plug-and-play libraries to improve features as close as 
     it's successor Panada Framework.
-2.  Tests on other web platform and environment.
-3.  Develop in-application helpers supports.
-4.  Documentations (including core blue-print design).
+3.  Tests on other web platform and environment.
+4.  Develop in-application helpers supports.
+5.  Documentations (including core blue-print design).
 
 DEVELOPER NOTES
 
