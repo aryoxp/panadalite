@@ -26,6 +26,10 @@ class controller extends panada {
         exit;
 	}	
 
+	// $this->location('home', true);
+	// http:// -> https://
+	// $this->location('home', false);
+	// https:// -> http://
 	public function location( $path = NULL, $secure = null ) {
 		
 		if(substr($this->config->index_file, strlen($this->config->index_file)-1, 1) != "/" 
