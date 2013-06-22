@@ -22,7 +22,7 @@ $CONFIG['index_file']                       = '';
 /**
  * EN: Database configuration.
  */
-$CONFIG['db']['default']['driver']          = 'mysql';
+$CONFIG['db']['default']['driver']          = 'mysqli';
 $CONFIG['db']['default']['host']            = 'localhost'; 
 $CONFIG['db']['default']['user']            = 'root'; 
 $CONFIG['db']['default']['password']        = ''; 

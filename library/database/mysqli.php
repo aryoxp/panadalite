@@ -23,31 +23,18 @@ class database_mysqli implements interface_database {
     private function connect(){
 			
 		if( $this->db_config->persistent ){
-			
-			$arguments = array(
-				$this->db_config->host,
-				$this->db_config->user,
-				$this->db_config->password,
-				$this->client_flags
-				);
-			
-			$function = 'mysql_pconnect';
-			
-		} else {
-			
-			$arguments = array(
-				$this->db_config->host.':'.$this->port,
-				$this->db_config->user,
-				$this->db_config->password,
-				$this->new_link = true,
-				$this->client_flags
-				);
-	
-			$function = 'mysql_connect';
-			
-		}
-	
-		return call_user_func_array($function, $arguments);
+			$this->db_config->host = "p:".$this->db_config->host;
+		} 	
+		
+		$conn = mysqli_connect(
+			$this->db_config->host,
+			$this->db_config->user,
+			$this->db_config->password,
+			$this->db_config->database,
+			$this->port
+		);
+		$this->link = $conn;
+		return $conn;
     }
     
     private function init(){
@@ -56,7 +43,7 @@ class database_mysqli implements interface_database {
 	    $this->link = $this->connect();
         
         if ( !$this->link )
-            error::database('Unable to connect to database in <strong>'.$this->connection.'</strong> connection.');
+            error::database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection.');
         
         $collation_query = '';
         
@@ -75,7 +62,7 @@ class database_mysqli implements interface_database {
 	
 		if( is_null( $this->link ) )
 			$this->init();
-		if ( !@mysql_select_db( $dbname, $this->link ) )
+		if ( !@mysqlii_select_db( $dbname, $this->link ) )
 			error::database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection.' );   
     }
 
@@ -109,14 +96,14 @@ class database_mysqli implements interface_database {
 		if( is_null($this->link) )
 		    $this->init();
 
-        $result = mysql_query($sql, $this->link);
+        $result = mysqli_query($this->link, $sql);
         $this->last_query = $sql;
         
-        if ( $this->last_error = mysql_error( $this->link ) )
+        if ( $this->last_error = mysqli_error( $this->link ) )
             return false;
 		
         if( preg_match( "/^(select|show)/i", $sql ) ) {
-			while ($row = @mysql_fetch_object($result)) {            
+			while ($row = @mysqli_fetch_object($result)) {            
 				if($type == 'array') $return[] = (array) $row;
 				else $return[] = $row;
 	        }
@@ -125,7 +112,7 @@ class database_mysqli implements interface_database {
 		} else if( preg_match( "/^(set names)/i", $sql ) ) {
 			return NULL;
 		} else {
-			$this->affected_rows = mysql_affected_rows( $this->link );		
+			$this->affected_rows = mysqli_affected_rows( $this->link );		
 			return $this->affected_rows;
 		}
     }
@@ -249,7 +236,7 @@ class database_mysqli implements interface_database {
     }
 
     private function insertId() {
-		$result = @mysql_insert_id( $this->link );
+		$result = @mysqli_insert_id( $this->link );
 		return $result;
     }
 	
@@ -272,12 +259,12 @@ class database_mysqli implements interface_database {
     }
 	    
     public function close(){	
-		@mysql_close( $this->link );
+		@mysqli_close( $this->link );
     }
     
 	/**
 	 *
-	 * Description: Getting last error message of mysql query
+	 * Description: Getting last error message of mysqli query
 	 * Notes:
 	 * As of Panada (v0.2.1) the $getLastError() property was public, 
 	 * in Panada v0.3.1 the $getLastError() property has become a private property
@@ -293,4 +280,4 @@ class database_mysqli implements interface_database {
 		return $this->last_error;
 	}
 		
-} // End Driver_mysql Class
+} // End Driver_mysqli Class
