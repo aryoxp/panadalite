@@ -41,7 +41,15 @@ class database_mysqli implements interface_database {
 			$this->db_config->database,
 			$this->port
 		);
+		
+		/*
+		Put connection resource to this driver $link attribute
+		*/
 		$this->link = $conn;
+		
+		/*
+		And return the connection resources
+		*/
 		return $conn;
     }
     
