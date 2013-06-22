@@ -21,11 +21,19 @@ class database_mysqli implements interface_database {
     }
     
     private function connect(){
-			
+		/*
+		MySQLi has no pconnect function, 
+		so that if configuration says we should use persistent connection, 
+		then prepend the host with p:
+		*/
 		if( $this->db_config->persistent ){
 			$this->db_config->host = "p:".$this->db_config->host;
 		} 	
 		
+		/*
+		Start the mysqli connection with given parameter 
+		from specified mysqli configuration
+		*/
 		$conn = mysqli_connect(
 			$this->db_config->host,
 			$this->db_config->user,
