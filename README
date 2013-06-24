@@ -89,10 +89,14 @@ DEVELOPER NOTES
 	
 CHANGE LOG
 
-1.1a (Air alpha) 20 Mar 2012
+1.2 (Air) 25 Jun 2013
+	- Add mysqli database driver support
+	- Add support for changing HTTP/HTTPS protocol
+
+1.1 (Air alpha) 20 Mar 2012
 	- Add method aliasing support
 	- Miscellaneous fix
-
+	
 1.0a (Air alpha) 05 Jan 2012
     First alpha release. Simple.
 
