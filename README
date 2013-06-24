@@ -93,7 +93,7 @@ CHANGE LOG
 	- Add mysqli database driver support
 	- Add support for changing HTTP/HTTPS protocol
 
-1.1 (Air alpha) 20 Mar 2012
+1.1 (Air) 20 Mar 2012
 	- Add method aliasing support
 	- Miscellaneous fix
 	
