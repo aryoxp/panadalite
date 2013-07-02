@@ -76,7 +76,7 @@ class database_mysql implements interface_database {
 		if( is_null( $this->link ) )
 			$this->init();
 		if ( !@mysql_select_db( $dbname, $this->link ) )
-			$this->error->database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection. '.mysql_error() );
+			$this->error->database( 'Unable to select database. '.mysql_error() );
     }
 
 	// transaction sets
