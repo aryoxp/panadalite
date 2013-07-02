@@ -4,20 +4,23 @@ class database_mysqli implements interface_database {
 
 	private $db_config;
 
-    private $port = 3306;
+	private $port = 3306;
 	private $client_flags = NULL;
 	
 	private $link;
 	private $connection_name;
 	
 	private $last_query;
-    private $last_error;
+	private $last_error;
 	private $last_insert_id;
 	private $affected_rows;
+
+	public $error; // error objects container
 	
     function __construct( $config_instance, $connection_name ){
 		$this->db_config = $config_instance;
-		$this->connection_name = $connection_name;	
+		$this->connection_name = $connection_name;
+		$this->error = new error();	
     }
     
     private function connect(){
@@ -59,7 +62,7 @@ class database_mysqli implements interface_database {
 	    $this->link = $this->connect();
         
         if ( !$this->link )
-            error::database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection.');
+            $this->error->database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection. '.mysql_error());
         
         $collation_query = '';
         
@@ -79,7 +82,7 @@ class database_mysqli implements interface_database {
 		if( is_null( $this->link ) )
 			$this->init();
 		if ( !@mysqlii_select_db( $dbname, $this->link ) )
-			error::database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection.' );   
+			$this->error->database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection.' );   
     }
 
 	// transaction sets
@@ -115,8 +118,10 @@ class database_mysqli implements interface_database {
         $result = mysqli_query($this->link, $sql);
         $this->last_query = $sql;
         
-        if ( $this->last_error = mysqli_error( $this->link ) )
-            return false;
+        if ( $this->last_error = mysqli_error( $this->link ) ) {
+		$this->error->database($this->last_error);       
+		return false;
+	}
 		
         if( preg_match( "/^(select|show)/i", $sql ) ) {
 			while ($row = @mysqli_fetch_object($result)) {            

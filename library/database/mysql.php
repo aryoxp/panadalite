@@ -4,20 +4,23 @@ class database_mysql implements interface_database {
 
 	private $db_config;
 
-    private $port = 3306;
+	private $port = 3306;
 	private $client_flags = NULL;
 	
 	private $link;
 	private $connection_name;
 	
 	private $last_query;
-    private $last_error;
+	private $last_error;
 	private $last_insert_id;
 	private $affected_rows;
+
+	public $error; // error objects container
 	
     function __construct( $config_instance, $connection_name ){
 		$this->db_config = $config_instance;
-		$this->connection_name = $connection_name;	
+		$this->connection_name = $connection_name;
+		$this->error = new error();
     }
     
     private function connect(){
@@ -54,10 +57,7 @@ class database_mysql implements interface_database {
 	
 	if( is_null($this->link) )
 	    $this->link = $this->connect();
-        
-        if ( !$this->link )
-            error::database('Unable to connect to database in <strong>'.$this->connection.'</strong> connection.');
-        
+        $this->error->database('Unable to connect to database in <strong>'.$this->connection.'</strong> connection. '.mysql_error());
         $collation_query = '';
         
         if ( !empty($this->db_config->charset) ) {
@@ -76,7 +76,7 @@ class database_mysql implements interface_database {
 		if( is_null( $this->link ) )
 			$this->init();
 		if ( !@mysql_select_db( $dbname, $this->link ) )
-			error::database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection.' );   
+			$this->error->database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection. '.mysql_error() );
     }
 
 	// transaction sets
@@ -96,8 +96,6 @@ class database_mysql implements interface_database {
 
 	// functional template
     public function escape( $string ) {        
-		if( is_null($this->link) )
-			$this->init();
 		return addslashes( $string );
     }
     
@@ -112,8 +110,10 @@ class database_mysql implements interface_database {
         $result = mysql_query($sql, $this->link);
         $this->last_query = $sql;
         
-        if ( $this->last_error = mysql_error( $this->link ) )
+        if ( $this->last_error = mysql_error( $this->link ) ) {
+	    $this->error->database($this->last_error);
             return false;
+	}
 		
         if( preg_match( "/^(select|show)/i", $sql ) ) {
 			while ($row = @mysql_fetch_object($result)) {            
