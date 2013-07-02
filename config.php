@@ -67,3 +67,4 @@ $CONFIG['secret_key'] = "tH1s/is#4+seCREt/key''couLD bE\\anyThInG";
  */
 $CONFIG['maintenance'] = false;
 $CONFIG['method_alias'] = 'alias';
+$CONFIG['default_timezone'] = 'Asia/Jakarta';
