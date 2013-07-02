@@ -22,6 +22,9 @@ require_once LIBRARY . 'autoloader.php';
 // instantiate the autoloader object
 $autoloader = new autoloader();
 
+$config		= config::instance();
+date_default_timezone_set($config->default_timezone);
+
 // instantiate the uri parser object, getting the controller and method
 $uri = new uri();	
 $controller = $uri->getController();
