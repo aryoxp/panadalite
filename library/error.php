@@ -3,10 +3,13 @@
 class error {
 	
 	static public $instance;
+
 	private $message;
+	public $database = array();
+	public $common = array();
 	
 	function __construct( $message = NULL ) {
-		$this->message = $message;
+		$this->message[] = $message;
 	}
 	
 	static public function instance( $message = NULL ) {
@@ -15,16 +18,33 @@ class error {
 		return self::$instance;
 	}
 		
-	public function show( $message = NULL, $code = 500, $template = "500" ) {
-		if( $message ) 
-			$this->message = $message;
-		@header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, $code);
-		if( is_readable( VIEW . "error/" . $template . ".php" ) ) {
-			$panada = panada::instance();
-			$panada->view( "error/" . $template . ".php", array( "message" => $this->message ) );
-		} else 
-			echo $this->message;
-		//exit;	
+	public function show( $kind = 'all', $code = NULL, $template = NULL ) {
+		switch($kind) {
+			case 'database':
+				foreach ($this->database as $e) {
+					echo '<p>'.$e.'</p>';
+				}
+				break;
+			case 'common':
+				foreach ($this->common as $e) {
+					echo '<p>'.$e.'</p>';
+				}
+				break;
+			default:
+				$errors = array_merge($database, $common);
+				foreach ($errors as $e) {
+					echo '<p>'.$e.'</p>';
+				}
+				break;			
+		}	
+	}
+
+	public function common($message = NULL) {
+		$this->common[] = $message;
+	}
+
+	public function database( $message = NULL, $code = 500 ) {
+		$this->database[] = "Database: ".$message;
 	}
 
 	public function notfound( $message = NULL, $code = 404, $template = "404" ) {
@@ -39,11 +59,7 @@ class error {
 		//exit;
 	}	
 	
-	static public function database( $message = NULL, $code = 500 ) {
-		@header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, $code);
-		echo "Database Error: " . $message;
-		exit;
-	}
+
 		
 	static public function get_caller($offset = 1) {
         

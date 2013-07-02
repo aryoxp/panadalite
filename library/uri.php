@@ -13,7 +13,7 @@ class uri {
 
     public function __construct(){
 
-		$this->config 			= config::instance();
+		$this->config		= config::instance();
 		$this->fulluristring 	= $_SERVER['REQUEST_URI'];
 		//var_dump($_SERVER['REQUEST_URI']); echo "<br>";
 		$path = NULL;
