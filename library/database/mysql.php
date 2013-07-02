@@ -57,7 +57,7 @@ class database_mysql implements interface_database {
 	
 	if( is_null($this->link) )
 	    $this->link = $this->connect();
-        $this->error->database('Unable to connect to database in <strong>'.$this->connection.'</strong> connection. '.mysql_error());
+        $this->error->database('Unable to connect to database. '.mysql_error());
         $collation_query = '';
         
         if ( !empty($this->db_config->charset) ) {
