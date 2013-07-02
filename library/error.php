@@ -31,7 +31,7 @@ class error {
 				}
 				break;
 			default:
-				$errors = array_merge($database, $common);
+				$errors = array_merge($this->database, $this->common);
 				foreach ($errors as $e) {
 					echo '<p>'.$e.'</p>';
 				}

@@ -8,6 +8,7 @@ class database_mysqli implements interface_database {
 	private $client_flags = NULL;
 	
 	private $link;
+	private $link_errno;
 	private $connection_name;
 	
 	private $last_query;
@@ -37,7 +38,7 @@ class database_mysqli implements interface_database {
 		Start the mysqli connection with given parameter 
 		from specified mysqli configuration
 		*/
-		$conn = mysqli_connect(
+		$conn = @mysqli_connect(
 			$this->db_config->host,
 			$this->db_config->user,
 			$this->db_config->password,
@@ -49,6 +50,7 @@ class database_mysqli implements interface_database {
 		Put connection resource to this driver $link attribute
 		*/
 		$this->link = $conn;
+		$this->link_errno = mysqli_connect_errno();
 		
 		/*
 		And return the connection resources
@@ -62,7 +64,7 @@ class database_mysqli implements interface_database {
 	    $this->link = $this->connect();
         
         if ( !$this->link )
-            $this->error->database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection. '.mysql_error());
+            $this->error->database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection. '.mysqli_connect_error());
         
         $collation_query = '';
         
@@ -81,8 +83,8 @@ class database_mysqli implements interface_database {
 	
 		if( is_null( $this->link ) )
 			$this->init();
-		if ( !@mysqlii_select_db( $dbname, $this->link ) )
-			$this->error->database( 'Unable to select database in <strong>'.$this->connection.'</strong> connection.' );   
+		if ( !@mysqli_select_db( $dbname, $this->link ) )
+			$this->error->database( 'Unable to select database.' );   
     }
 
 	// transaction sets
@@ -112,14 +114,14 @@ class database_mysqli implements interface_database {
      */
     public function query($sql, $type = 'object'){
 	
-		if( is_null($this->link) )
-		    $this->init();
-
-        $result = mysqli_query($this->link, $sql);
-        $this->last_query = $sql;
-        
-        if ( $this->last_error = mysqli_error( $this->link ) ) {
-		$this->error->database($this->last_error);       
+	if( is_null($this->link) )
+		$this->init();
+	if($this->link) {
+	        $result = mysqli_query($this->link, $sql);
+	        $this->last_query = $sql;
+        } else {
+		$this->last_error = mysqli_connect_error();
+		$this->error->database("Unable to connect to database. ".$this->last_error);       
 		return false;
 	}
 		
