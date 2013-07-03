@@ -28,5 +28,8 @@ interface interface_database {
 	
 	// functional templates
 	public function escape( $data );
-
+	public function testConnect();
+	public function testSelectDb();
+	public function getError();
+	
 }

@@ -78,6 +78,18 @@ class db implements interface_database {
 	public function escape( $data ) {
 		return $this->db->escape( $data );
 	}
+	
+	public function testConnect() {
+		return $this->db->testConnect();
+	}
+	
+	public function testSelectDb() {
+		return $this->db->testSelectDb();
+	}
+	
+	public function getError() {
+		return $this->db->getError();
+	}
 		
 	// drivers specific implementation
 	// in function call, variables getter and setter

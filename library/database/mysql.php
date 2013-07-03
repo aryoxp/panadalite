@@ -15,7 +15,7 @@ class database_mysql implements interface_database {
 	private $last_insert_id;
 	private $affected_rows;
 
-	public $error; // error objects container
+	private $error; // error objects container
 	
     function __construct( $config_instance, $connection_name ){
 		$this->db_config = $config_instance;
@@ -75,8 +75,11 @@ class database_mysql implements interface_database {
 	
 		if( is_null( $this->link ) )
 			$this->init();
-		if ( !@mysql_select_db( $dbname, $this->link ) )
+		if ( $res = @mysql_select_db( $dbname, $this->link ) ) {
+			return $res;
+		} else 
 			$this->error->database( 'Unable to select database. '.mysql_error() );
+		
     }
 
 	// transaction sets
@@ -292,5 +295,24 @@ class database_mysql implements interface_database {
 	public function getLastError(){
 		return $this->last_error;
 	}
+	
+	public function testConnect(){
+		if($res = $this->connect()) {
+			$this->close();
+			return $res;
+		}
+	}
+	
+	public function testSelectDb() {
+		if($res = $this->connect()) {
+			$res = $this->selectDb( $this->db_config->database );
+			$this->close();
+			return $res;
+		}
+	}
+	
+	public function getError() {
+		return $this->error;
+	}
 		
-} // End Driver_mysql Class
+} // End database_mysql Class
