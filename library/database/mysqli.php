@@ -79,7 +79,8 @@ class database_mysqli implements interface_database {
         $this->selectDb( $this->db_config->database );
     }
     
-    private function selectDb($dbname, $link = $this->link){
+    private function selectDb($dbname, $link=NULL){
+    	if(!$link) $link = $this->link;
 		if ( $link and $res = @mysqli_select_db( $link, $dbname ) )
 			return $res;
 		else {

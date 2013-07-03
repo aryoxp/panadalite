@@ -71,15 +71,14 @@ class database_mysql implements interface_database {
         $this->selectDb( $this->db_config->database );
     }
     
-    private function selectDb($dbname){
-	
-		if( is_null( $this->link ) )
-			$this->init();
-		if ( $res = @mysql_select_db( $dbname, $this->link ) ) {
+    private function selectDb($dbname, $link=NULL){
+		if(!$link) $link = $this->link;
+		if ( $res = @mysql_select_db( $dbname, $link ) ) {
 			return $res;
-		} else 
+		} else {
 			$this->error->database( 'Unable to select database. '.mysql_error() );
-		
+			return null;
+		}
     }
 
 	// transaction sets
