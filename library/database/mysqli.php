@@ -42,10 +42,10 @@ class database_mysqli implements interface_database {
 			$this->db_config->host,
 			$this->db_config->user,
 			$this->db_config->password,
-			$this->db_config->database,
+			NULL,
 			$this->port
 		);
-		
+
 		/*
 		Put connection resource to this driver $link attribute
 		*/
@@ -64,7 +64,7 @@ class database_mysqli implements interface_database {
 	    $this->link = $this->connect();
         
         if ( !$this->link )
-            $this->error->database('Unable to connect to database in <strong>'.$this->connection_name.'</strong> connection. '.mysqli_connect_error());
+            $this->error->database('Unable to connect to database.'.mysqli_connect_error());
         
         $collation_query = '';
         
@@ -80,7 +80,7 @@ class database_mysqli implements interface_database {
     }
     
     private function selectDb($dbname, $link=NULL){
-    	if(!$link) $link = $this->link;
+    	if ( !$link ) $link = $this->link;
 		if ( $link and $res = @mysqli_select_db( $link, $dbname ) )
 			return $res;
 		else {
@@ -306,16 +306,13 @@ class database_mysqli implements interface_database {
 	}
 	
 	public function testConnect(){
-		if($res = $this->connect()) {
-			$this->close();
+		if($res = $this->connect())
 			return $res;
-		}
 	}
 	
 	public function testSelectDb() {
-		if($res = $this->connect()) {
+		if($this->link = $this->connect()) {
 			$res = $this->selectDb( $this->db_config->database );
-			$this->close();
 			return $res;
 		}
 	}

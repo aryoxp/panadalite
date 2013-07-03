@@ -24,33 +24,25 @@ class database_mysql implements interface_database {
     }
     
     private function connect(){
+		
+		$arguments = array(
+			$this->db_config->host.':'.$this->port,
+			$this->db_config->user,
+			$this->db_config->password
+			);
 			
-		if( $this->db_config->persistent ){
-			
-			$arguments = array(
-				$this->db_config->host,
-				$this->db_config->user,
-				$this->db_config->password,
-				$this->client_flags
-				);
-			
+		if( $this->db_config->persistent ) {		
 			$function = 'mysql_pconnect';
-			
 		} else {
-			
-			$arguments = array(
-				$this->db_config->host.':'.$this->port,
-				$this->db_config->user,
-				$this->db_config->password,
-				$this->new_link = true,
-				$this->client_flags
-				);
-	
+			$this->new_link = true;
+			$arguments[] = $this->new_link;
 			$function = 'mysql_connect';
-			
 		}
+		
+		$arguments[] = $this->client_flags;
 	
-		return call_user_func_array($function, $arguments);
+		$this->link = call_user_func_array($function, $arguments);
+		return $this->link;
     }
     
     private function init(){
@@ -73,7 +65,8 @@ class database_mysql implements interface_database {
     
     private function selectDb($dbname, $link=NULL){
 		if(!$link) $link = $this->link;
-		if ( $res = @mysql_select_db( $dbname, $link ) ) {
+		$res = mysql_select_db( $dbname, $link );
+		if ( $res ) {
 			return $res;
 		} else {
 			$this->error->database( 'Unable to select database. '.mysql_error() );
