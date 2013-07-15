@@ -24,7 +24,12 @@ class controller extends panada {
             $destination = $this->location() . $destination;
         header( 'location: ' . trim( $destination ) );
         exit;
-	}	
+	}
+
+    public function sredirect( $destination ) {
+        header( 'location: ' . trim( $this->location($destination, true) ) );
+        exit;
+    }
 
 	// $this->location('home', true);
 	// http:// -> https://
@@ -43,6 +48,10 @@ class controller extends panada {
 			$base_url = preg_replace('/^https\:/i', 'http:', $base_url);
 		return  $base_url . $location;
 	}
+
+    public function slocation( $path ) {
+        $this->location($path, true);
+    }
 	
 	public function assets( $path = NULL ) {
 		$location = str_replace( "//", "/", $this->config->assets_folder . "/" . $path );
