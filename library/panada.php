@@ -2,9 +2,9 @@
 
 class panada {
 	
-	protected $config;
+	public $config;
 	public $error;
-	
+	public $session;
 	public $base_url;
 	
 	static public $instance;
