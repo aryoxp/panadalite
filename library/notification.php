@@ -36,6 +36,7 @@ class notification {
                 $flushed[] = $n;
             else $maintained[] = $n;
         }
+
         $this->panada->session->set('notification',$maintained);
         return $flushed;
     }

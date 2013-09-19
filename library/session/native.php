@@ -42,7 +42,7 @@ class session_native implements interface_session {
 	
 	// remove/unset session variable(s)
 	public function remove( $name ) {
-		unset( $_SERVER[$name] );	
+		unset( $_SESSION[$name] );
 	}
 	
 	// completely destroy session
