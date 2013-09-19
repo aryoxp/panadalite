@@ -33,7 +33,7 @@ class notification {
         $flushed = array();
         foreach($notification as $n) {
             if($n[0] == $type)
-                $flushed[] = $n[1];
+                $flushed[] = $n;
             else $maintained[] = $n;
         }
         $this->panada->session->set('notification',$maintained);
