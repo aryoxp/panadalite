@@ -38,13 +38,16 @@ class database_mysqli implements interface_database {
 		Start the mysqli connection with given parameter 
 		from specified mysqli configuration
 		*/
-		$conn = @mysqli_connect(
+		ob_start();
+		$conn = mysqli_connect(
 			$this->db_config->host,
 			$this->db_config->user,
 			$this->db_config->password,
 			NULL,
 			$this->port
 		);
+		$this->last_error = ob_get_contents();
+		ob_end_clean();
 
 		/*
 		Put connection resource to this driver $link attribute
