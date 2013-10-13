@@ -124,6 +124,7 @@ class database_mysqli implements interface_database {
 	if($this->link) {
 	        $result = mysqli_query($this->link, $sql);
 	        $this->last_query = $sql;
+	        if(!$result) $this->last_error = mysqli_error($this->link);
         } else {
 		$this->last_error = mysqli_connect_error();
 		$this->error->database("Unable to connect to database. ".$this->last_error);       
