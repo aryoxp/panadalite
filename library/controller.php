@@ -57,6 +57,10 @@ class controller extends panada {
 		$location = str_replace( "//", "/", $this->config->assets_folder . "/" . $path );
 		return $this->config->base_url() . $location;		
 	}
+
+	public function file($relpathtofile = '') {
+        return $this->config->base_url().$relpathtofile;
+    }
 	
 	public function library( $path = NULL ) {
 		@include_once( APPLIBRARY . $path );
