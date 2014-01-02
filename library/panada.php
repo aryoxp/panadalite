@@ -20,13 +20,18 @@ class panada {
 		ini_set ('magic_quotes_gpc', 0);
 	}
 
-	public function view( $viewpath, $data = array() ) {
+	public function view( $viewpath, $data = array(), $return = false ) {
 
 		// extract given data arguments array as variables
 		extract( $data, EXTR_SKIP ); //var_dump( $data) ;
+		if($return) ob_start();
 		if( is_readable( VIEW . $viewpath ) )
 			include VIEW . $viewpath;
 		else $this->error->notfound( "View: " . $viewpath . " could not be found!" );
+		if($return) {
+			$content = ob_get_clean(); //var_dump($content);
+			return $content;
+		}
 	}
 	
 	public function asset( $asset ) {
