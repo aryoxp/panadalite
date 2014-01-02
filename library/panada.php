@@ -23,7 +23,8 @@ class panada {
 	public function view( $viewpath, $data = array(), $return = false ) {
 
 		// extract given data arguments array as variables
-		extract( $data, EXTR_SKIP ); //var_dump( $data) ;
+        if(is_array($data))
+		    extract( $data, EXTR_SKIP ); //var_dump( $data) ;
 		if($return) ob_start();
 		if( is_readable( VIEW . $viewpath ) )
 			include VIEW . $viewpath;
