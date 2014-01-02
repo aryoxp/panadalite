@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 class panada {
@@ -98,7 +97,5 @@ class panada {
 
 	public function getExecutionTime() {
 		return microtime( true ) - $GLOBALS['microtime_start'];
-	}
-			
->>>>>>> c018427549289a3aa333686408cd70fc6052480b
+	}			
 }
