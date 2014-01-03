@@ -14,7 +14,7 @@ class notification {
         $this->panada = $panada;
     }
 
-    public function add($type,$message){
+    public function add($message, $type = 0){
         $notification = $this->panada->session->get('notification');
         if(!$notification) $notification = array();
         array_push($notification, array($type,$message));
